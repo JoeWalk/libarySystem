@@ -95,7 +95,7 @@ public class Main {
                 }
             }
             if (response.equals("D")) {
-                searchForBook():
+
             }
 
         }
@@ -149,7 +149,9 @@ public class Main {
             System.out.println("");
             while (myReader.hasNextLine()) {
                 String line = myReader.nextLine();
-                System.out.println(line);
+                if (!line.equals("*deleted*")) {
+                    System.out.println(line);
+                }
             }
             System.out.println("");
 
