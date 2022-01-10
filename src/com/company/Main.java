@@ -10,18 +10,18 @@ import java.util.Scanner;
 
 public class Main {
 
-    private static File bookInfoFile = new File("NewFilename.txt");
+    public static File bookInfoFile = new File("NewFilename.txt");
 
     public static void main(String[] args) {
 
         CreateFile();
 
         String email = "";
-        email = getEmail(email);
+        email = adminClass.getEmail(email);
         String password = "";
-        password = getPassword(password);
+        password = adminClass.getPassword(password);
 
-        register(email,password);
+        adminClass.register(email,password);
 
         displayMenu(email,password);
 
@@ -52,6 +52,7 @@ public class Main {
             System.out.println("B: Display everything in the file");
             System.out.println("C: Delete a book from the file (Admin needed)");
             System.out.println("D: Search for a book in the system");
+            System.out.println("E: Go to book borrowing menu");
             System.out.println("Q: Quit");
             System.out.println("");
             response = getInput("Please enter the letter of the option you want to choose");
@@ -63,7 +64,7 @@ public class Main {
                     System.out.println("You are not logged into an admin account");
                     answer = getInput("Do you want to sign into one? y/n");
                     if (answer.equals("y")){
-                        admin = logIn(admin);
+                        admin = adminClass.logIn(admin);
                         if (admin == true) {
                             writeToFile(data, email, password);
                         }
@@ -84,7 +85,7 @@ public class Main {
                     System.out.println("You are not logged into an admin account");
                     answer = getInput("Do you want to sign into one? y/n");
                     if (answer.equals("y")){
-                        admin = logIn(admin);
+                        admin = adminClass.logIn(admin);
                         if (admin == true) {
                             writeToFile(data, email, password);
                         }
@@ -96,6 +97,9 @@ public class Main {
             }
             if (response.equals("D")) {
 
+            }
+            if (response.equals("E")) {
+                bookBorrowing.displayBorrowingMenu(email,password,data);
             }
 
         }
@@ -167,87 +171,6 @@ public class Main {
         } else {
             System.out.println("Failed to delete the file.");
         }
-    }
-
-    public static String getEmail(String email) {
-        boolean valid = false;
-        while(!valid){
-            email = getInput("Please enter the email you would like to use for your admin account");
-            if (email.contains("@") && email.contains(".")) {
-                valid = true;
-            }
-            else{
-                System.out.println("Please enter a valid email");
-            }
-        }
-        return(email);
-    }
-
-    public static String getPassword(String password) {
-        boolean valid = false;
-        while(!valid) {
-            password = getInput("Please enter the password you would like to use");
-            if (password.length() > 6) {
-                valid = true;
-            }
-            else{
-                System.out.println("Password is too short");
-            }
-        }
-        return(password);
-    }
-
-    public static void register(String email, String password) {
-        try{
-            FileWriter myWriter = new FileWriter(bookInfoFile.getName(), false);
-            myWriter.write(email + "\n" + password + "\n" + "\n");
-            myWriter.close();
-            System.out.println("Admin account created");
-            System.out.println("");
-        }
-        catch (IOException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }
-    }
-
-    public static boolean logIn(boolean admin) {
-        try{
-            boolean valid = false;
-            String response = "";
-            while(!valid) {
-                Scanner myReader = new Scanner(bookInfoFile);
-                String email = getInput("What is the email of your account? ");
-                String password = getInput("What is your password? ");
-                if (email.equals(myReader.nextLine())) {
-                    if (password.equals(myReader.nextLine())) {
-                        System.out.println("Successfully logged into admin account");
-                        System.out.println("");
-                        valid = true;
-                        admin = true;
-                    }
-                    else {
-                        System.out.println("Password is incorrect");
-                        response = getInput("Do you want to continue trying to log in? y/n");
-                        if (response.equals("n")) {
-                            valid = true;
-                        }
-                    }
-                }
-                else {
-                    System.out.println("email is incorrect");
-                    response = getInput("Do you want to continue trying to log in? y/n");
-                    if (response.equals("n")) {
-                        valid = true;
-                    }
-                }
-            }
-        }
-        catch (FileNotFoundException e) {
-            System.out.println("An error occurred.");
-            e.printStackTrace();
-        }
-        return(admin);
     }
 
     public static ArrayList<String> deleteBook(ArrayList<String> data, String password, String email) {
