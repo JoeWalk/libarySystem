@@ -1,4 +1,7 @@
-package com.company;
+package com.company.books;
+
+import com.company.Main;
+import com.company.adminClass;
 
 import java.util.ArrayList;
 
@@ -19,7 +22,7 @@ public class bookBorrowing {
         }
         if (response.equals("A")) {
             if (admin == true) {
-                borrowBook();
+                borrowBook(data);
             }
             else {
                 System.out.println("You are not logged into an admin account");
@@ -27,7 +30,7 @@ public class bookBorrowing {
                 if (answer.equals("y")){
                     admin = adminClass.logIn(admin);
                     if (admin == true) {
-                        borrowBook();
+                        borrowBook(data);
                     }
                 }
                 else {
@@ -37,7 +40,11 @@ public class bookBorrowing {
         }
     }
 
-    public static void borrowBook() {
+    public static void borrowBook(ArrayList <String> data) {
+        String response = Main.getInput("Do you want to see the books in the system y/n");
+        if (response.equals("y")) {
+            Main.displayFile();
+        }
 
     }
 }
