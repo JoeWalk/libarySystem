@@ -45,6 +45,11 @@ public class bookBorrowing {
         if (response.equals("y")) {
             Main.displayFile();
         }
+        String name = Main.getInput("What is your name? ");
+        String DOB = Main.getInput("What is your date of birth? ");
+        String book = Main.getInput("What book would you like to borrow? ");
+
+
 
     }
 }
